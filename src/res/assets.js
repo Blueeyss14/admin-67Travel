@@ -6,6 +6,11 @@ import PlusIcon from "../../assets/icons/plus.png";
 import InfoIcon from "../../assets/icons/info.png";
 import ChatIcon from "../../assets/icons/customer-service.png";
 import NotificationIcon from "../../assets/icons/notification.png";
+import BookingSticker from "../../assets/stickers/booking.png";
+import MessageSticker from "../../assets/stickers/message.png";
+import NotificationSticker from "../../assets/stickers/notification.png";
+import PaymentSticker from "../../assets/stickers/payment.png";
+import ReminderSticker from "../../assets/stickers/reminder.png";
 
 export const Assets = {
   CloseIcon,
@@ -15,5 +20,10 @@ export const Assets = {
   PlusIcon,
   InfoIcon,
   ChatIcon,
-  NotificationIcon
+  NotificationIcon,
+  BookingSticker,
+  MessageSticker,
+  NotificationSticker,
+  PaymentSticker,
+  ReminderSticker,
 };

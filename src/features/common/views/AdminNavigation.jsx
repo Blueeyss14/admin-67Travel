@@ -3,6 +3,7 @@ import Destionation from "../../Destination/views/Destionation";
 import Chat from "../../Chat/views/Chat";
 import Location from "../../Location/views/Location";
 import User from "../../User/views/User";
+import Notification from "../../Notification/views/Notification";
 import { useState } from "react";
 import { Assets } from "../../../res/assets";
 
@@ -17,7 +18,7 @@ const AdminNavigation = () => {
     { name: "Add Location", destination: <Location />, icon: Assets.PlusIcon },
     { name: "Messages", destination: <Chat />, icon: Assets.ChatIcon },
     { name: "User Info", destination: <User />, icon: Assets.InfoIcon },
-    { name: "Notification", destination: <User />, icon: Assets.NotificationIcon },
+    { name: "Notification", destination: <Notification />, icon: Assets.NotificationIcon },
   ];
 
   return (
