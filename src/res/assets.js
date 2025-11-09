@@ -11,6 +11,7 @@ import MessageSticker from "../../assets/stickers/message.png";
 import NotificationSticker from "../../assets/stickers/notification.png";
 import PaymentSticker from "../../assets/stickers/payment.png";
 import ReminderSticker from "../../assets/stickers/reminder.png";
+import LogoutIcon from "../../assets/icons/logout.png";
 
 export const Assets = {
   CloseIcon,
@@ -26,4 +27,5 @@ export const Assets = {
   NotificationSticker,
   PaymentSticker,
   ReminderSticker,
+  LogoutIcon
 };

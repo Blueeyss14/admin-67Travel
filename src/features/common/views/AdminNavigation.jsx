@@ -2,13 +2,16 @@ import colors from "../../../res/colors";
 import Destionation from "../../Destination/views/Destionation";
 import Chat from "../../Chat/views/Chat";
 import Location from "../../Location/views/Location";
+import Vehicle from "../../Vehicle/views/Vehicle";
 import User from "../../User/views/User";
 import Notification from "../../Notification/views/Notification";
 import { useState } from "react";
 import { Assets } from "../../../res/assets";
+import { useNavigate } from "react-router-dom";
 
 const AdminNavigation = () => {
   const [selectedItem, setSelectedItem] = useState(0);
+  const navigate = useNavigate();
   const dashboard = [
     {
       name: "Add Destionation",
@@ -16,9 +19,14 @@ const AdminNavigation = () => {
       icon: Assets.PlusIcon,
     },
     { name: "Add Location", destination: <Location />, icon: Assets.PlusIcon },
+    { name: "Add Vehicle", destination: <Vehicle />, icon: Assets.PlusIcon },
     { name: "Messages", destination: <Chat />, icon: Assets.ChatIcon },
     { name: "User Info", destination: <User />, icon: Assets.InfoIcon },
-    { name: "Notification", destination: <Notification />, icon: Assets.NotificationIcon },
+    {
+      name: "Notification",
+      destination: <Notification />,
+      icon: Assets.NotificationIcon,
+    },
   ];
 
   return (
@@ -31,7 +39,7 @@ const AdminNavigation = () => {
           <h1 className="font-bold text-white text-2xl">67Travel</h1>
           <img className="w-10 h-10 whitee-filter" src={Assets.PlaneIcon} />
         </div>
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full h-full flex flex-col gap-2">
           {dashboard.map((dest, index) => (
             <div
               key={index}
@@ -44,10 +52,20 @@ const AdminNavigation = () => {
             >
               <div className="flex w-full h-full gap-4 items-center">
                 <img className="w-4 h-4 whitee-filter" src={dest.icon} />
-              <h2 className="text-white">{dest.name}</h2>
+                <h2 className="text-white">{dest.name}</h2>
               </div>
             </div>
           ))}
+          <div
+            className={`p-2.5 rounded-[5px] cursor-pointer hover:bg-white/50 "bg-white/50  "
+            } `}
+            onClick={() => navigate("/", { replace: true })}
+          >
+            <div className="flex w-full h-full gap-4 items-center">
+              <img className="w-4 h-4 whitee-filter" src={Assets.LogoutIcon} />
+              <h1 className="text-white">Logout</h1>
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex-1 h-full">
