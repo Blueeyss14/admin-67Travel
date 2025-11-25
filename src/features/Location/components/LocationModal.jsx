@@ -56,7 +56,7 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
       <div className="bg-white rounded-lg w-full max-w-md">
         <div className="p-6">
           <h2 className="text-xl font-bold mb-4">
-            {location ? "Edit Location" : "Add New Location"}
+            {location ? "Edit Accomodation" : "Add New Accomodation"}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">

@@ -14,12 +14,12 @@ const AdminNavigation = () => {
   const navigate = useNavigate();
   const dashboard = [
     {
-      name: "Add Destionation",
+      name: "Destionation Management",
       destination: <Destionation />,
-      icon: Assets.PlusIcon,
+      icon: Assets.DestinationIcon,
     },
-    { name: "Add Location", destination: <Location />, icon: Assets.PlusIcon },
-    { name: "Add Vehicle", destination: <Vehicle />, icon: Assets.PlusIcon },
+    { name: "Accomodation Management", destination: <Location />, icon: Assets.AccomodationIcon },
+    { name: "Vehicle Management", destination: <Vehicle />, icon: Assets.CarIcon },
     { name: "Messages", destination: <Chat />, icon: Assets.ChatIcon },
     { name: "User Info", destination: <User />, icon: Assets.InfoIcon },
     {
