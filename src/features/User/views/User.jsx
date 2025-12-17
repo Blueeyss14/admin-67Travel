@@ -1,16 +1,10 @@
-import { useState } from 'react';
-import UserTable from '../components/UserTable';
-import UserModal from '../components/UserModal';
+import { useState } from "react";
+import UserTable from "../components/UserTable";
+import UserModal from "../components/UserModal";
+import { useUsers } from "../hook/useUser";
 
 const User = () => {
-  const [users, setUsers] = useState([
-    { 
-      id: 1, 
-      name: "Felicia", 
-      email: "felifeli@gmail.com", 
-      password: "password123" 
-    }
-  ]);
+  const { users, deleteUser, updateUser } = useUsers();
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
@@ -19,21 +13,9 @@ const User = () => {
     setShowModal(true);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure want to delete this user?")) {
-      setUsers(prev => prev.filter(item => item.id !== id));
-    }
-  };
-
-  const handleSubmit = (formData) => {
+  const handleSubmit = async (formData) => {
     if (editingUser) {
-      setUsers(prev => 
-        prev.map(item => 
-          item.id === editingUser.id 
-            ? { ...formData, id: editingUser.id }
-            : item
-        )
-      );
+      await updateUser(editingUser.id, formData);
     }
     setShowModal(false);
   };
@@ -44,11 +26,7 @@ const User = () => {
         <h1 className="text-2xl font-bold text-gray-800">User Management</h1>
       </div>
 
-      <UserTable 
-        users={users}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+      <UserTable users={users} onEdit={handleEdit} onDelete={deleteUser} />
 
       {showModal && (
         <UserModal

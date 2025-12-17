@@ -22,11 +22,11 @@ const AdminNavigation = () => {
     { name: "Vehicle Management", destination: <Vehicle />, icon: Assets.CarIcon },
     { name: "Messages", destination: <Chat />, icon: Assets.ChatIcon },
     { name: "User Info", destination: <User />, icon: Assets.InfoIcon },
-    {
-      name: "Notification",
-      destination: <Notification />,
-      icon: Assets.NotificationIcon,
-    },
+    // {
+    //   name: "Notification",
+    //   destination: <Notification />,
+    //   icon: Assets.NotificationIcon,
+    // },
   ];
 
   return (

@@ -3,9 +3,9 @@ import { Assets } from "../../../res/assets";
 
 const UserModal = ({ user, onSubmit, onClose }) => {
   const [formData, setFormData] = useState({
-    name: user?.name || "",
+    name: user?.nama || "",
     email: user?.email || "",
-    password: user?.password || "",
+    password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
 
@@ -36,7 +36,6 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                 value={formData.name}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="John Doe"
                 required
               />
             </div>
@@ -51,7 +50,6 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                 value={formData.email}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="john@example.com"
                 required
               />
             </div>
@@ -67,8 +65,6 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                   value={formData.password}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded pr-10"
-                  placeholder="Enter password"
-                  required
                 />
                 <button
                   type="button"
@@ -76,15 +72,9 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
                   {showPassword ? (
-                    <img
-                      src={Assets.VisibleIcon}
-                      className="w-6 h-6 cursor-pointer"
-                    />
+                    <img src={Assets.VisibleIcon} className="w-6 h-6 cursor-pointer" />
                   ) : (
-                    <img
-                      src={Assets.InvisibleIcon}
-                      className="w-6 h-6 cursor-pointer"
-                    />
+                    <img src={Assets.InvisibleIcon} className="w-6 h-6 cursor-pointer" />
                   )}
                 </button>
               </div>
