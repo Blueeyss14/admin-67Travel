@@ -1,89 +1,21 @@
-import { useState } from "react";
 import { Assets } from "../../../../res/assets";
+import { useAddDestination } from "../../hook/useAddDestination";
 
 const DestinationModal = ({ destination, onSubmit, onClose }) => {
-  const [formData, setFormData] = useState({
-    bg: destination?.bg || null,
-    location: destination?.location || "",
-    label: destination?.label || "",
-    owner: destination?.owner || "",
-    guest: destination?.guest || "",
-    rating: destination?.rating || "",
-    price: destination?.price || "",
-    facility: destination?.facility || [],
-    imgs: destination?.imgs || [],
-    description: destination?.description || "",
-  });
-  const [facilityInput, setFacilityInput] = useState("");
-  const [bgPreview, setBgPreview] = useState(destination?.bg || "");
-  const [additionalPreviews, setAdditionalPreviews] = useState(
-    destination?.imgs || []
-  );
-
-  const handleBgUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prev) => ({ ...prev, bg: file }));
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setBgPreview(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleAdditionalImagesUpload = (e) => {
-    const files = Array.from(e.target.files);
-    if (files.length > 0) {
-      setFormData((prev) => ({ ...prev, imgs: [...prev.imgs, ...files] }));
-
-      files.forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setAdditionalPreviews((prev) => [...prev, e.target.result]);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-  };
-
-  const handleRemoveImage = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      imgs: prev.imgs.filter((_, i) => i !== index),
-    }));
-    setAdditionalPreviews((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleAddFacility = () => {
-    if (
-      facilityInput.trim() &&
-      !formData.facility.includes(facilityInput.trim())
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        facility: [...prev.facility, facilityInput.trim()],
-      }));
-      setFacilityInput("");
-    }
-  };
-
-  const handleRemoveFacility = (index) => {
-    setFormData((prev) => ({
-      ...prev,
-      facility: prev.facility.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
-  };
+  const {
+    formData,
+    facilityInput,
+    setFacilityInput,
+    bgPreview,
+    additionalPreviews,
+    handleBgUpload,
+    handleAdditionalImagesUpload,
+    handleRemoveImage,
+    handleAddFacility,
+    handleRemoveFacility,
+    handleInputChange,
+    handleSubmit,
+  } = useAddDestination(destination, onSubmit, onClose);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -164,45 +96,31 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Number of Guests
+                  Max Guests
                 </label>
                 <input
                   type="text"
-                  name="guest"
-                  value={formData.guest}
+                  name="maxGuest"
+                  value={formData.maxGuest}
                   onChange={handleInputChange}
                   className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="4"
+                  placeholder="10"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Rating
-                </label>
-                <input
-                  type="text"
-                  name="rating"
-                  value={formData.rating}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="4.5"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Price
-                </label>
-                <input
-                  type="text"
-                  name="price"
-                  value={formData.price}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder="800.000"
-                />
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Price
+              </label>
+              <input
+                type="text"
+                name="price"
+                value={formData.price}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder="10000"
+              />
             </div>
 
             <div>
@@ -233,18 +151,11 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
                   >
                     <span className="text-sm">{facility}</span>
                     <img
-                      s
                       onClick={() => handleRemoveFacility(index)}
                       src={Assets.CloseIcon}
                       className="w-2 h-2 cursor-pointer"
+                      alt="remove"
                     />
-                    {/* <button
-                      type="button"
-                      onClick={() => handleRemoveFacility(index)}
-                      className="text-red-500 hover:text-red-700 text-lg"
-                    >
-                      ×
-                    </button> */}
                   </div>
                 ))}
               </div>
