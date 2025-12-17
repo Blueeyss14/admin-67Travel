@@ -1,7 +1,7 @@
 import colors from "../../../res/colors";
 import Destionation from "../../Destination/views/Destionation";
 import Chat from "../../Chat/views/Chat";
-import Location from "../../Location/views/Location";
+import Accommodation from "../../Accommodation/views/Accommodation";
 import Vehicle from "../../Vehicle/views/Vehicle";
 import User from "../../User/views/User";
 import Notification from "../../Notification/views/Notification";
@@ -18,7 +18,7 @@ const AdminNavigation = () => {
       destination: <Destionation />,
       icon: Assets.DestinationIcon,
     },
-    { name: "Accomodation Management", destination: <Location />, icon: Assets.AccomodationIcon },
+    { name: "Accomodation Management", destination: <Accommodation />, icon: Assets.AccomodationIcon },
     { name: "Vehicle Management", destination: <Vehicle />, icon: Assets.CarIcon },
     { name: "Messages", destination: <Chat />, icon: Assets.ChatIcon },
     { name: "User Info", destination: <User />, icon: Assets.InfoIcon },

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useAddAccommodation } from "../hook/useAddAccommodation";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -13,42 +14,22 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-const LocationModal = ({ location, onSubmit, onClose }) => {
-  const [formData, setFormData] = useState({
-    name: location?.name || "",
-    lat: location?.lat || -6.914744,
-    long: location?.long || 107.60981,
-    price: location?.price || "",
-  });
+const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
+  const {
+    formData,
+    thumbnailPreview,
+    handleInputChange,
+    handleThumbnailUpload,
+    handleSubmit,
+  } = useAddAccommodation(accommodation, onSubmit, onClose);
+
   const [showMap, setShowMap] = useState(false);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCoordinateClick = () => {
-    setShowMap(true);
-  };
-
+  const handleCoordinateClick = () => setShowMap(true);
   const handleMapClick = (lat, long) => {
-    setFormData((prev) => ({
-      ...prev,
-      lat: lat,
-      long: long,
-    }));
+    handleInputChange({ target: { name: "latitude", value: lat } });
+    handleInputChange({ target: { name: "longitude", value: long } });
     setShowMap(false);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const submitData = {
-      ...formData,
-      lat: parseFloat(formData.lat),
-      long: parseFloat(formData.long),
-      price: parseInt(formData.price.replace(/\./g, "")),
-    };
-    onSubmit(submitData);
   };
 
   return (
@@ -56,7 +37,7 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
       <div className="bg-white rounded-lg w-full max-w-md">
         <div className="p-6">
           <h2 className="text-xl font-bold mb-4">
-            {location ? "Edit Accomodation" : "Add New Accomodation"}
+            {accommodation ? "Edit Accommodation" : "Add New Accommodation"}
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -70,7 +51,6 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
                 value={formData.name}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="Wisata 1"
                 required
               />
             </div>
@@ -83,26 +63,20 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
                 onClick={handleCoordinateClick}
                 className="w-full p-3 border border-gray-300 rounded bg-gray-50 cursor-pointer hover:bg-gray-100 text-center"
               >
-                {formData.lat && formData.long ? (
-                  <div className="text-sm">
-                    <div>Lat: {formData.lat}</div>
-                    <div>Long: {formData.long}</div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      Click to change location
-                    </div>
+                <div className="text-sm">
+                  <div>Lat: {formData.latitude}</div>
+                  <div>Long: {formData.longitude}</div>
+                  <div className="text-xs text-gray-500 mt-1">
+                    Click to change location
                   </div>
-                ) : (
-                  <div className="text-gray-500">
-                    Click to select location on map
-                  </div>
-                )}
+                </div>
               </div>
             </div>
 
             {showMap && (
               <MapPicker
-                lat={formData.lat}
-                long={formData.long}
+                lat={formData.latitude}
+                long={formData.longitude}
                 onMapClick={handleMapClick}
                 onClose={() => setShowMap(false)}
               />
@@ -113,14 +87,35 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
                 Price
               </label>
               <input
-                type="text"
+                type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
-                placeholder="100000"
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Thumbnail
+              </label>
+              {/* <input type="file" accept="image/*" onChange={handleThumbnailUpload} /> */}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleThumbnailUpload}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              {thumbnailPreview && (
+                <div className="w-20 h-20 mt-2 border rounded overflow-hidden">
+                  <img
+                    src={thumbnailPreview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="flex gap-2 pt-4">
@@ -135,7 +130,7 @@ const LocationModal = ({ location, onSubmit, onClose }) => {
                 type="submit"
                 className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
               >
-                {location ? "Update" : "Create"}
+                {accommodation ? "Update" : "Create"}
               </button>
             </div>
           </form>
@@ -162,19 +157,14 @@ const MapPicker = ({ lat, long, onMapClick, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60 p-4">
       <div className="bg-white rounded-lg w-full max-w-4xl h-96">
-        <div className="p-4 border-b">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">Select Location on Map</h3>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              ✕
-            </button>
-          </div>
-          <p className="text-sm text-gray-600 mt-1">
-            Click anywhere on the map to select location
-          </p>
+        <div className="p-4 border-b flex justify-between items-center">
+          <h3 className="text-lg font-bold">Select Location on Map</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ✕
+          </button>
         </div>
 
         <MapContainer
@@ -189,12 +179,10 @@ const MapPicker = ({ lat, long, onMapClick, onClose }) => {
           <MapClickHandler />
         </MapContainer>
 
-        <div className="p-4 border-t">
-          <div className="text-sm">
-            <div>Selected Coordinates:</div>
-            <div className="font-mono">
-              Lat: {position[0].toFixed(6)}, Long: {position[1].toFixed(6)}
-            </div>
+        <div className="p-4 border-t text-sm">
+          <div>Selected Coordinates:</div>
+          <div className="font-mono">
+            Lat: {position[0].toFixed(6)}, Long: {position[1].toFixed(6)}
           </div>
         </div>
       </div>
@@ -202,4 +190,4 @@ const MapPicker = ({ lat, long, onMapClick, onClose }) => {
   );
 };
 
-export default LocationModal;
+export default AccommodationModal;
