@@ -1,10 +1,13 @@
 import { useState } from "react";
 
-const ChatArea = ({ activeChatData }) => {
+const ChatArea = ({ activeChatData, onSendMessage }) => {
   const [messageInput, setMessageInput] = useState("");
 
   const handleSendMessage = () => {
     if (messageInput.trim() === "") return;
+    if (onSendMessage) {
+      onSendMessage(messageInput.trim());
+    }
     setMessageInput("");
   };
 
@@ -40,35 +43,36 @@ const ChatArea = ({ activeChatData }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {activeChatData.messages.map((message, index) => (
-          <div
-            key={index}
-            className={`flex ${
-              message.isUser ? "justify-end" : "justify-start"
-            }`}
-          >
+        {(!activeChatData.messages || activeChatData.messages.length === 0) && (
+          <p className="text-gray-600 text-center">Belum ada pesan</p>
+        )}
+
+        {activeChatData.messages &&
+          activeChatData.messages.map((message, index) => (
             <div
-              className={`max-w-[70%] rounded-lg p-4 ${"bg-white text-gray-800 border border-black/10"}`}
+              key={index}
+              className={`flex ${
+                message.isUser ? "justify-end" : "justify-start"
+              }`}
             >
-              <div className="flex items-center gap-2 mb-1">
-                <img
-                  src={message.profile}
-                  alt={message.role}
-                  className="w-6 h-6 rounded-full object-cover"
-                />
-                <span className="text-xs font-semibold">{message.role}</span>
-              </div>
-              <p className="text-sm">{message.message}</p>
               <div
-                className={`text-xs mt-1 ${
-                  "text-gray-500"
-                }`}
+                className={`max-w-[70%] rounded-lg p-4 ${"bg-white text-gray-800 border border-black/10"}`}
               >
-                {message.timestamp}
+                <div className="flex items-center gap-2 mb-1">
+                  <img
+                    src={message.profile}
+                    alt={message.role}
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                <span className="text-xs font-semibold">{message.role}</span>
+                </div>
+                <p className="text-sm">{message.message}</p>
+                <div className={`text-xs mt-1 ${"text-gray-500"}`}>
+                  {message.timestamp}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       <div className="p-4 border-t border-black/10">
