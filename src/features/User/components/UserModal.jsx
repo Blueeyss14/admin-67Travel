@@ -20,14 +20,25 @@ const UserModal = ({ user, onSubmit, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-md">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/40 backdrop-blur-[10px] flex items-center justify-center p-4 z-50"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden"
+      >
         <div className="p-6">
-          <h2 className="text-xl font-bold mb-4">Edit User</h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">Edit User</h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Update user information below
+            </p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Name
               </label>
               <input
@@ -35,13 +46,14 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                placeholder="Enter user name"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Email
               </label>
               <input
@@ -49,13 +61,14 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                placeholder="Enter email address"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -64,35 +77,47 @@ const UserModal = ({ user, onSubmit, onClose }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded pr-10"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="Enter new password (optional)"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded transition-colors"
                 >
                   {showPassword ? (
-                    <img src={Assets.VisibleIcon} className="w-6 h-6 cursor-pointer" />
+                    <img
+                      src={Assets.VisibleIcon}
+                      className="w-5 h-5"
+                      alt="Hide password"
+                    />
                   ) : (
-                    <img src={Assets.InvisibleIcon} className="w-6 h-6 cursor-pointer" />
+                    <img
+                      src={Assets.InvisibleIcon}
+                      className="w-5 h-5"
+                      alt="Show password"
+                    />
                   )}
                 </button>
               </div>
+              <p className="text-xs text-gray-500 mt-2">
+                Leave blank to keep current password
+              </p>
             </div>
 
-            <div className="flex gap-2 pt-4">
+            <div className="flex gap-3 pt-4 border-t border-gray-200">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded"
+                className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                className="flex-1 py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
               >
-                Update
+                Update User
               </button>
             </div>
           </form>

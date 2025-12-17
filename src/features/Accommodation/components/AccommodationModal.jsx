@@ -33,16 +33,27 @@ const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg w-full max-w-md">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 bg-black/40 backdrop-blur-[10px] flex items-center justify-center p-4 z-50"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden"
+      >
         <div className="p-6">
-          <h2 className="text-xl font-bold mb-4">
-            {accommodation ? "Edit Accommodation" : "Add New Accommodation"}
-          </h2>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {accommodation ? "Edit Accommodation" : "Add New Accommodation"}
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Tambah akomodasi
+            </p>
+          </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Name
               </label>
               <input
@@ -50,24 +61,31 @@ const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                placeholder="Ex: Hotel"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Coordinates
               </label>
               <div
                 onClick={handleCoordinateClick}
-                className="w-full p-3 border border-gray-300 rounded bg-gray-50 cursor-pointer hover:bg-gray-100 text-center"
+                className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors"
               >
-                <div className="text-sm">
-                  <div>Lat: {formData.latitude}</div>
-                  <div>Long: {formData.longitude}</div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    Click to change location
+                <div className="text-sm text-gray-700">
+                  <div className="flex justify-between mb-1">
+                    <span className="font-medium">Latitude:</span>
+                    <span className="font-mono">{formData.latitude}</span>
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <span className="font-medium">Longitude:</span>
+                    <span className="font-mono">{formData.longitude}</span>
+                  </div>
+                  <div className="text-xs text-blue-600 font-medium text-center mt-2">
+                    Pilih kordinat
                   </div>
                 </div>
               </div>
@@ -83,52 +101,64 @@ const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Price
               </label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded"
-                required
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  Rp. 
+                </span>
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-800 mb-2">
                 Thumbnail
               </label>
-              {/* <input type="file" accept="image/*" onChange={handleThumbnailUpload} /> */}
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleThumbnailUpload}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-              {thumbnailPreview && (
-                <div className="w-20 h-20 mt-2 border rounded overflow-hidden">
-                  <img
-                    src={thumbnailPreview}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
+              <div className="space-y-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleThumbnailUpload}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer outline-none"
+                />
+                {thumbnailPreview && (
+                  <div className="border border-gray-200 rounded-lg overflow-hidden">
+                    <div className="p-3 bg-gray-50 border-b">
+                      <span className="text-sm font-medium text-gray-700">
+                        Preview
+                      </span>
+                    </div>
+                    <img
+                      src={thumbnailPreview}
+                      alt="Preview"
+                      className="w-full h-48 object-cover"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="flex gap-2 pt-4">
+            <div className="flex gap-3 pt-4">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded"
+                className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                className="flex-1 py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
               >
                 {accommodation ? "Update" : "Create"}
               </button>
@@ -155,34 +185,66 @@ const MapPicker = ({ lat, long, onMapClick, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60 p-4">
-      <div className="bg-white rounded-lg w-full max-w-4xl h-96">
-        <div className="p-4 border-b flex justify-between items-center">
-          <h3 className="text-lg font-bold">Select Location on Map</h3>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-60 p-4">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white rounded-xl shadow-2xl w-full max-w-4xl overflow-hidden"
+      >
+        <div className="p-5 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">
+              Select Location on Map
+            </h3>
+            <p className="text-sm text-gray-500 mt-1">
+              Click on the map to choose coordinates
+            </p>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
           >
-            ✕
+            <span className="text-xl text-gray-500">×</span>
           </button>
         </div>
 
-        <MapContainer
-          center={[lat, long]}
-          zoom={13}
-          style={{ height: "300px", width: "100%" }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <MapClickHandler />
-        </MapContainer>
+        <div className="relative">
+          <MapContainer
+            center={[lat, long]}
+            zoom={13}
+            style={{ height: "400px", width: "100%" }}
+            className="z-0"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <MapClickHandler />
+          </MapContainer>
+        </div>
 
-        <div className="p-4 border-t text-sm">
-          <div>Selected Coordinates:</div>
-          <div className="font-mono">
-            Lat: {position[0].toFixed(6)}, Long: {position[1].toFixed(6)}
+        <div className="p-5 border-t border-gray-200 bg-gray-50">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-3 h-3 rounded-full bg-blue-600"></div>
+            <span className="font-medium text-gray-800">Selected Coordinates</span>
+          </div>
+          <div className="font-mono text-lg bg-white p-3 rounded-lg border border-gray-200">
+            <div className="flex gap-6">
+              <div>
+                <span className="text-gray-500 text-sm">Latitude:</span>
+                <span className="ml-2 text-gray-900">
+                  {position[0].toFixed(6)}
+                </span>
+              </div>
+              <div>
+                <span className="text-gray-500 text-sm">Longitude:</span>
+                <span className="ml-2 text-gray-900">
+                  {position[1].toFixed(6)}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4 text-sm text-gray-500">
+            Click "Confirm" in the main form to save these coordinates
           </div>
         </div>
       </div>
