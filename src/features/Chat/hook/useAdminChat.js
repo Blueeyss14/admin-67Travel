@@ -41,6 +41,20 @@ export const useAdminChat = () => {
     init();
   }, []);
 
+  const refreshAllChats = async () => {
+    try {
+      setLoading(true);
+      const allMessages = await fetchAllUsersMessages();
+      const mapped = mapUsersFromMessages(allMessages);
+      setChatList(mapped);
+      setActiveChatIndex(0);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const refreshActiveUser = async (userId, indexInList) => {
     const token = getToken();
     const res = await fetch(`${config.api}/message/user/${userId}`, {
@@ -94,5 +108,6 @@ export const useAdminChat = () => {
     loading,
     sendAdminMessage,
     refreshActiveUser,
+    refreshAllChats
   };
 };

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Assets } from "../../../res/assets";
 
-const ChatArea = ({ activeChatData, onSendMessage }) => {
+const ChatArea = ({ activeChatData, onSendMessage, onRefresh }) => {
   const [messageInput, setMessageInput] = useState("");
 
   const handleSendMessage = () => {
@@ -28,16 +29,28 @@ const ChatArea = ({ activeChatData, onSendMessage }) => {
   return (
     <div className="flex-1 flex flex-col">
       <div className="p-4  border-b border-black/10">
-        <div className="flex items-center gap-3">
-          <img
-            src={activeChatData.profile}
-            alt={activeChatData.name}
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <div>
-            <h3 className="font-semibold text-gray-800">
-              {activeChatData.name}
-            </h3>
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <img
+              src={activeChatData.profile}
+              alt={activeChatData.name}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <div>
+              <h3 className="font-semibold text-gray-800">
+                {activeChatData.name}
+              </h3>
+            </div>
+          </div>
+          <div className="bg-gray-50 p-3 rounded-full shadow cursor-pointer">
+            <img
+              onClick={(e) => {
+                e.stopPropagation();
+                onRefresh();
+              }}
+              src={Assets.RefreshIcon}
+              className="w-4 h-4"
+            />
           </div>
         </div>
       </div>
@@ -56,7 +69,7 @@ const ChatArea = ({ activeChatData, onSendMessage }) => {
               }`}
             >
               <div
-                className={`max-w-[70%] rounded-lg p-4 ${"bg-white text-gray-800 border border-black/10"}`}
+                className={`max-w-[70%] rounded-lg p-3 ${"bg-white text-gray-800 border border-black/10"}`}
               >
                 <div className="flex items-center gap-2 mb-1">
                   <img
@@ -64,7 +77,7 @@ const ChatArea = ({ activeChatData, onSendMessage }) => {
                     alt={message.role}
                     className="w-6 h-6 rounded-full object-cover"
                   />
-                <span className="text-xs font-semibold">{message.role}</span>
+                  <span className="text-xs font-semibold">{message.role}</span>
                 </div>
                 <p className="text-sm">{message.message}</p>
                 <div className={`text-xs mt-1 ${"text-gray-500"}`}>

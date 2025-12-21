@@ -9,6 +9,7 @@ const Chat = () => {
     setActiveChatIndex,
     loading,
     sendAdminMessage,
+    refreshAllChats
   } = useAdminChat();
 
   const activeChatData = chatList[activeChatIndex] || null;
@@ -36,6 +37,7 @@ const Chat = () => {
       <ChatArea
         activeChatData={activeChatData}
         onSendMessage={handleSendMessage}
+        onRefresh={refreshAllChats}
       />
     </div>
   );

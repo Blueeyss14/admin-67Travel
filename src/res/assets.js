@@ -15,6 +15,7 @@ import LogoutIcon from "../../assets/icons/logout.png";
 import AccomodationIcon from "../../assets/icons/accomodation.png";
 import DestinationIcon from "../../assets/icons/destination.png";
 import CarIcon from "../../assets/icons/car.png";
+import RefreshIcon from "../../assets/icons/refresh.png";
 
 export const Assets = {
   CloseIcon,
@@ -33,5 +34,6 @@ export const Assets = {
   LogoutIcon,
   AccomodationIcon,
   DestinationIcon,
-  CarIcon
+  CarIcon,
+  RefreshIcon,
 };
