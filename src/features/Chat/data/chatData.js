@@ -1,4 +1,4 @@
-import { config } from "../../../config/config";
+// import { config } from "../../../config/config";
 
 function formatHour(timestamp) {
   const date = new Date(timestamp);
@@ -13,8 +13,11 @@ export function mapMessagesFromApi(rawData) {
   return rawData
     .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
     .flatMap((item) => {
+      // const baseProfile = item.user_profile_photo
+      //   ? `${config.assetBase}/storage/${item.user_profile_photo}`
+      //   : "/images/annonymous.png";
       const baseProfile = item.user_profile_photo
-        ? `${config.assetBase}/storage/${item.user_profile_photo}`
+        ? item.user_profile_photo
         : "/images/annonymous.png";
 
       const msgs = [];
@@ -31,7 +34,7 @@ export function mapMessagesFromApi(rawData) {
 
       if (item.adminMessage) {
         msgs.push({
-          profile: "/images/image1.jpg",
+          profile: "/images/konatsuu.jpg",
           message: item.adminMessage,
           isUser: false,
           role: "Admin",
@@ -68,8 +71,11 @@ export function mapUsersFromMessages(rawData) {
     return {
       id: userId,
       name: last.userName,
+      // profile: last.user_profile_photo
+      //   ? `${config.api_storage ?? config.api}/${last.user_profile_photo}`
+      //   : "/images/annonymous.png",
       profile: last.user_profile_photo
-        ? `${config.api_storage ?? config.api}/${last.user_profile_photo}`
+        ? last.user_profile_photo
         : "/images/annonymous.png",
       lastMessage: lastMessageText,
       timestamp: last.timestamp,

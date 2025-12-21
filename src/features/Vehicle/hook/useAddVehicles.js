@@ -9,8 +9,11 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
     thumbnail: vehicle?.thumbnail || null,
   });
   const [thumbnailPreview, setThumbnailPreview] = useState(
+    // vehicle?.thumbnailUrl
+    //   ? `${config.api.replace("/api", "")}/storage/${vehicle.thumbnailUrl}`
+    //   : ""
     vehicle?.thumbnailUrl
-      ? `${config.api.replace("/api", "")}/storage/${vehicle.thumbnailUrl}`
+      ? vehicle.thumbnailUrl
       : ""
   );
 

@@ -15,13 +15,19 @@ export const useAddDestination = (destination, onSubmit, onClose) => {
   });
   const [facilityInput, setFacilityInput] = useState("");
   const [bgPreview, setBgPreview] = useState(
+    // destination?.thumbnailUrl
+    //   ? `${config.api.replace("/api", "")}/storage/${destination.thumbnailUrl}`
+    //   : ""
     destination?.thumbnailUrl
-      ? `${config.api.replace("/api", "")}/storage/${destination.thumbnailUrl}`
+      ? destination.thumbnailUrl
       : ""
   );
   const [additionalPreviews, setAdditionalPreviews] = useState(
+    // destination?.imageUrls?.map(
+    //   (url) => `${config.api.replace("/api", "")}/storage/${url}`
+    // ) || []
     destination?.imageUrls?.map(
-      (url) => `${config.api.replace("/api", "")}/storage/${url}`
+      (url) => url
     ) || []
   );
 

@@ -10,8 +10,11 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
     thumbnail: accommodation?.thumbnail || null,
   });
   const [thumbnailPreview, setThumbnailPreview] = useState(
+    // accommodation?.thumbnail
+    //   ? `${config.api.replace("/api", "")}/storage/${accommodation.thumbnail}`
+    //   : ""
     accommodation?.thumbnail
-      ? `${config.api.replace("/api", "")}/storage/${accommodation.thumbnail}`
+      ? accommodation.thumbnail
       : ""
   );
 
