@@ -22,7 +22,7 @@ const AuthPage = () => {
           <div className="bg-linear-to-b from-black/95 to-transparent w-full h-full absolute z-50 flex justify-center items-center flex-col">
             <div
               // style={{ backgroundColor: colors.secondary }}
-              className="box-border p-8 rounded-xl shadow-2xl max-w-md w-full mx-4 bg-white"
+              className="box-border p-8 rounded-xl shadow-2xl max-w-md w-full mx-4 bg-white/10 backdrop-blur-[20px] border border-white/20"
             >
             <Login/>
             </div>

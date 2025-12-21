@@ -9,7 +9,7 @@ const Login = () => {
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2
-            style={{ color: colors.hytam }}
+            style={{ color: colors.secondary }}
             className="mt-6 text-center text-3xl font-extrabold"
           >
             Login Admin
@@ -25,7 +25,7 @@ const Login = () => {
         <form className="mt-2 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-1">
                 Alamat Email
               </label>
               <input
@@ -33,7 +33,7 @@ const Login = () => {
                 name="email"
                 type="email"
                 required
-                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-white/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/80 focus:border-white/80 transition-colors"
                 placeholder="Masukkan alamat email"
                 value={formData.email}
                 onChange={handleChange}
@@ -41,7 +41,7 @@ const Login = () => {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-white/80 mb-1">
                 Password
               </label>
               <input
@@ -49,7 +49,7 @@ const Login = () => {
                 name="password"
                 type="password"
                 required
-                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-white/80 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/80 focus:border-white/80 transition-colors"
                 placeholder="Masukkan password"
                 value={formData.password}
                 onChange={handleChange}
@@ -63,9 +63,9 @@ const Login = () => {
                 id="remember-me"
                 name="remember-me"
                 type="checkbox"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-blue-600 focus:ring-white/80 border-gray-300 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 cursor-pointer">
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-white/80 cursor-pointer">
                 Ingatkan saya
               </label>
             </div>
@@ -75,7 +75,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white cursor-pointer bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50"
+              className="group relative w-full flex justify-center py-3 px-4 text-sm font-medium rounded-lg text-white cursor-pointer bg-white/20 hover:bg-white/50 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-white/80 transition-colors disabled:opacity-50 backdrop-blur-[20px] border border-white/20"
             >
               {loading ? "Memproses..." : "Masuk"}
             </button>
