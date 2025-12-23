@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
+
 
 export const useVehicles = () => {
   const [vehicles, setVehicles] = useState([]);
@@ -26,6 +28,8 @@ export const useVehicles = () => {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+      toast.success("berhasil dihapus");
+
       if (!res.ok) throw new Error("Failed to delete vehicle");
       setVehicles((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {

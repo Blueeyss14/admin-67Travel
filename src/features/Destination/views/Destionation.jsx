@@ -4,7 +4,8 @@ import DestinationModal from "../components/modal/DestionationModal";
 import { useDestinations } from "../hook/useDestination";
 
 const Destination = () => {
-  const { destinations, deleteDestination, submitDestination } = useDestinations();
+  const { destinations, deleteDestination, submitDestination } =
+    useDestinations();
   const [showModal, setShowModal] = useState(false);
   const [editingDestination, setEditingDestination] = useState(null);
 

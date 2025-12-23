@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
 
 export const useAddDestination = (destination, onSubmit, onClose) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     bg: destination?.thumbnailUrl || null,
     location: destination?.location || "",
@@ -97,6 +100,8 @@ export const useAddDestination = (destination, onSubmit, onClose) => {
     const token = localStorage.getItem("admin_token");
     if (!token) return;
 
+    setIsLoading(true);
+
     const formDataToSend = new FormData();
 
     if (destination) {
@@ -141,11 +146,20 @@ export const useAddDestination = (destination, onSubmit, onClose) => {
 
       if (!res.ok) throw new Error("Failed to submit destination");
 
+      toast.success(
+        destination
+          ? "berhasil diupdate"
+          : "berhasil ditambahkan"
+      );
+
       onSubmit();
       onClose();
     } catch (err) {
       console.error("Failed to submit destination:", err);
+      toast.error("gagal");
       alert("Failed to submit destination");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -162,5 +176,6 @@ export const useAddDestination = (destination, onSubmit, onClose) => {
     handleRemoveFacility,
     handleInputChange,
     handleSubmit,
+    isLoading
   };
 };

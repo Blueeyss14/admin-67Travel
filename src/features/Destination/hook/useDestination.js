@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
 
 export const useDestinations = () => {
   const [destinations, setDestinations] = useState([]);
@@ -32,6 +33,7 @@ export const useDestinations = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      toast.success("berhasil dihapus");
       if (!res.ok) throw new Error("Failed to delete destination");
       setDestinations((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
@@ -79,5 +81,10 @@ export const useDestinations = () => {
     fetchDestinations();
   }, [fetchDestinations]);
 
-  return { destinations, fetchDestinations, deleteDestination, submitDestination };
+  return {
+    destinations,
+    fetchDestinations,
+    deleteDestination,
+    submitDestination,
+  };
 };

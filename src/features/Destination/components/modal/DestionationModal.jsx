@@ -15,6 +15,7 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
     handleRemoveFacility,
     handleInputChange,
     handleSubmit,
+    isLoading,
   } = useAddDestination(destination, onSubmit, onClose);
 
   return (
@@ -31,9 +32,7 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
             <h2 className="text-2xl font-bold text-gray-900">
               {destination ? "Edit Destination" : "Add New Destination"}
             </h2>
-            <p className="text-sm text-gray-500 mt-1">
-              Tambah destinasi
-            </p>
+            <p className="text-sm text-gray-500 mt-1">Tambah destinasi</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -126,7 +125,7 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
               </label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  Rp. 
+                  Rp.
                 </span>
                 <input
                   type="text"
@@ -241,9 +240,9 @@ const DestinationModal = ({ destination, onSubmit, onClose }) => {
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                className={`flex-1 py-3 px-4 ${!isLoading ? 'bg-blue-600 text-white  hover:bg-blue-700' : 'bg-blue-600/80 text-white/80 ' }  transition-colors shadow-sm font-medium rounded-lg`}
               >
-                {destination ? "Update" : "Create"}
+                {isLoading ? "Memproses..." : destination ? "Update" : "Create"}
               </button>
             </div>
           </form>

@@ -21,6 +21,7 @@ const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
     handleInputChange,
     handleThumbnailUpload,
     handleSubmit,
+    isLoading
   } = useAddAccommodation(accommodation, onSubmit, onClose);
 
   const [showMap, setShowMap] = useState(false);
@@ -158,9 +159,9 @@ const AccommodationModal = ({ accommodation, onSubmit, onClose }) => {
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                className={`flex-1 py-3 px-4 ${!isLoading ? 'bg-blue-600 text-white  hover:bg-blue-700' : 'bg-blue-600/80 text-white/80 ' }  transition-colors shadow-sm font-medium rounded-lg`}
               >
-                {accommodation ? "Update" : "Create"}
+                {isLoading ? "Memproses..." : accommodation ? "Update" : "Create"}
               </button>
             </div>
           </form>

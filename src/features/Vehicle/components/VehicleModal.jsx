@@ -7,6 +7,7 @@ const VehicleModal = ({ vehicle, onSubmit, onClose }) => {
     handleInputChange,
     handleThumbnailUpload,
     handleSubmit,
+    isLoading
   } = useAddVehicle(vehicle, onSubmit, onClose);
 
   return (
@@ -122,9 +123,9 @@ const VehicleModal = ({ vehicle, onSubmit, onClose }) => {
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+                className={`flex-1 py-3 px-4 ${isLoading ? 'bg-blue-600/80 text-white/80  hover:bg-blue-700' : 'bg-blue-600 text-white ' }  transition-colors shadow-sm font-medium rounded-lg`}
               >
-                {vehicle ? "Update" : "Create"}
+                {isLoading ? "Memproses..." : vehicle ? "Update" : "Create"}
               </button>
             </div>
           </form>

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
 
 export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: accommodation?.name || "",
     latitude: accommodation?.latitude || -6.914744,
@@ -13,9 +15,7 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
     // accommodation?.thumbnail
     //   ? `${config.api.replace("/api", "")}/storage/${accommodation.thumbnail}`
     //   : ""
-    accommodation?.thumbnail
-      ? accommodation.thumbnail
-      : ""
+    accommodation?.thumbnail ? accommodation.thumbnail : ""
   );
 
   const handleInputChange = (e) => {
@@ -34,6 +34,7 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const token = localStorage.getItem("admin_token");
     if (!token) return;
@@ -60,6 +61,10 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
         body: payload,
       });
 
+      toast.success(
+        accommodation ? "berhasil diupdate" : "berhasil ditambahkan"
+      );
+
       if (!res.ok) throw new Error("Failed to submit accommodation");
 
       onSubmit();
@@ -67,6 +72,8 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
     } catch (err) {
       console.error(err);
       alert("Failed to submit accommodation");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -76,5 +83,6 @@ export const useAddAccommodation = (accommodation, onSubmit, onClose) => {
     handleInputChange,
     handleThumbnailUpload,
     handleSubmit,
+    isLoading
   };
 };

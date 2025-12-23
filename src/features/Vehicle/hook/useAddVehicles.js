@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
 
 export const useAddVehicle = (vehicle, onSubmit, onClose) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: vehicle?.name || "",
     price: vehicle?.price || "",
@@ -12,9 +14,7 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
     // vehicle?.thumbnailUrl
     //   ? `${config.api.replace("/api", "")}/storage/${vehicle.thumbnailUrl}`
     //   : ""
-    vehicle?.thumbnailUrl
-      ? vehicle.thumbnailUrl
-      : ""
+    vehicle?.thumbnailUrl ? vehicle.thumbnailUrl : ""
   );
 
   const handleInputChange = (e) => {
@@ -33,6 +33,7 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const token = localStorage.getItem("admin_token");
     if (!token) return;
@@ -64,10 +65,13 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          ...(payload instanceof FormData ? {} : { "Content-Type": "application/json" }),
+          ...(payload instanceof FormData
+            ? {}
+            : { "Content-Type": "application/json" }),
         },
         body: payload instanceof FormData ? payload : JSON.stringify(payload),
       });
+      toast.success(vehicle ? "berhasil diupdate" : "berhasil ditambahkan");
 
       if (!res.ok) throw new Error("Failed to submit vehicle");
 
@@ -76,6 +80,8 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
     } catch (err) {
       console.error(err);
       alert("Failed to submit vehicle");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,5 +91,6 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
     handleInputChange,
     handleThumbnailUpload,
     handleSubmit,
+    isLoading
   };
 };

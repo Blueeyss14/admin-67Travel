@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { config } from "../../../config/config";
+import toast from "react-hot-toast";
 
 export const useAccommodations = () => {
   const [accommodations, setAccommodations] = useState([]);
@@ -26,6 +27,7 @@ export const useAccommodations = () => {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+      toast.success("berhasil dihapus");
       if (!res.ok) throw new Error("Failed to delete accommodation");
       setAccommodations((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
@@ -42,7 +44,8 @@ export const useAccommodations = () => {
       payload.append("latitude", formData.latitude);
       payload.append("longitude", formData.longitude);
       payload.append("price", formData.price);
-      if (formData.thumbnail instanceof File) payload.append("thumbnail", formData.thumbnail);
+      if (formData.thumbnail instanceof File)
+        payload.append("thumbnail", formData.thumbnail);
 
       const url = editingAccommodation
         ? `${config.api}/accommodations/${editingAccommodation.id}`
@@ -64,5 +67,10 @@ export const useAccommodations = () => {
     fetchAccommodations();
   }, [fetchAccommodations]);
 
-  return { accommodations, fetchAccommodations, deleteAccommodation, submitAccommodation };
+  return {
+    accommodations,
+    fetchAccommodations,
+    deleteAccommodation,
+    submitAccommodation,
+  };
 };
