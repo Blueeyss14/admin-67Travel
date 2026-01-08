@@ -38,22 +38,13 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
     const token = localStorage.getItem("admin_token");
     if (!token) return;
 
-    let payload;
-
+    const payload = new FormData();
+    if (vehicle) payload.append("_method", "PUT");
+    payload.append("name", formData.name);
+    payload.append("price", formData.price);
+    payload.append("maxPassenger", formData.maxPassenger);
     if (formData.thumbnail instanceof File) {
-      payload = new FormData();
-      if (vehicle) payload.append("_method", "PUT");
-      payload.append("name", formData.name);
-      payload.append("price", formData.price);
-      payload.append("maxPassenger", formData.maxPassenger);
       payload.append("thumbnailUrl", formData.thumbnail);
-    } else {
-      payload = {
-        name: formData.name,
-        price: formData.price,
-        maxPassenger: formData.maxPassenger,
-        thumbnailUrl: formData.thumbnail || "",
-      };
     }
 
     try {
@@ -65,11 +56,8 @@ export const useAddVehicle = (vehicle, onSubmit, onClose) => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          ...(payload instanceof FormData
-            ? {}
-            : { "Content-Type": "application/json" }),
         },
-        body: payload instanceof FormData ? payload : JSON.stringify(payload),
+        body: payload,
       });
       toast.success(vehicle ? "berhasil diupdate" : "berhasil ditambahkan");
 
